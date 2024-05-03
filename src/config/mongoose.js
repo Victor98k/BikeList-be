@@ -8,7 +8,7 @@ function connectToMongoose() {
     .then(() => {
       console.log("Connected to DB");
     })
-    .catch(() => {
+    .catch((error) => {
       console.log("Error connecting to DB", databaseURI, error);
     });
 }
