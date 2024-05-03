@@ -1,4 +1,4 @@
-const Post = require("../models/post.model.js"); // Importing the post schema
+const Post = require("../models/post.model.js");
 
 async function createPost(req, res) {
   if (!req.body || !req.body.title) {
@@ -19,13 +19,14 @@ async function createPost(req, res) {
 
 async function getAllPosts(req, res) {
   try {
-    const posts = await Post.find();
+    const posts = await Post.find().populate("comments");
     res.json(posts);
   } catch (error) {
-    console.error("Error fetching posts", error);
-    res
-      .status(500)
-      .json({ message: "Error fetching posts", error: error.message });
+    console.error("Error fetching posts with comments", error);
+    res.status(500).json({
+      message: "Error fetching posts with comments",
+      error: error.message,
+    });
   }
 }
 

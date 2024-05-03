@@ -5,6 +5,8 @@ const userPostSchema = new mongoose.Schema({
   description: { type: String },
   imageUrl: { type: String },
   location: { type: String },
+  author: { type: mongoose.Schema.Types.ObjectId, ref: "User", required: true },
+  comments: [{ type: mongoose.Schema.Types.ObjectId, ref: "Comment" }],
 });
 
 const postSchema = mongoose.model("post", userPostSchema);
