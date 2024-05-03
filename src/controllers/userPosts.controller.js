@@ -1,12 +1,18 @@
 const Post = require("../models/post.model.js");
 
 async function createPost(req, res) {
-  if (!req.body || !req.body.title) {
-    return res.status(400).json({ error: "Title field must be submitted" });
+  if (!req.body || !req.body.content) {
+    return res.status(400).json({ error: "Content field must be submitted" });
   }
 
   try {
-    const post = new Post(req.body);
+    const post = new Post({
+      title: req.body.title, // Update to use 'title' from the request body
+      content: req.body.content,
+      imageUrl: req.body.imageUrl, // Update to use 'imageUrl' from the request body
+      location: req.body.location, // Update to use 'location' from the request body
+      author: req.body.author,
+    });
     await post.save();
     res.status(201).json(post);
   } catch (error) {
