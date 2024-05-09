@@ -1,10 +1,17 @@
 const Comment = require("../models/comments.model");
 const Post = require("../models/post.model");
+const BadWordsFilter = require("bad-words");
+const filter = new BadWordsFilter();
 
-// Create a new comment
 async function createComment(req, res) {
   if (!req.body.text || !req.body.postId || !req.body.author) {
     return res.status(400).json({ error: "Missing required fields" });
+  }
+
+  if (filter.isProfane(req.body.text)) {
+    return res
+      .status(400)
+      .json({ error: "Please avoid using offensive language in comments." });
   }
 
   try {
@@ -16,7 +23,6 @@ async function createComment(req, res) {
 
     const savedComment = await comment.save();
 
-    // Update the post with the new comment
     await Post.findByIdAndUpdate(req.body.postId, {
       $push: { comments: savedComment._id },
     });
@@ -30,7 +36,6 @@ async function createComment(req, res) {
   }
 }
 
-// Get all comments for a specific post
 async function getCommentsByPost(req, res) {
   try {
     const comments = await Comment.find({ postId: req.params.postId });

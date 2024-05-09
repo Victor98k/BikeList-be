@@ -1,5 +1,5 @@
 const Post = require("../models/post.model.js");
-const mongoose = require("mongoose"); // Import mongoose
+const mongoose = require("mongoose");
 
 async function createPost(req, res) {
   if (!req.body) {
@@ -8,15 +8,8 @@ async function createPost(req, res) {
 
   const { title, description, imageUrl, location, author } = req.body;
 
-  // Check all required fields
   if (!description || !title || !imageUrl || !location || !author) {
     return res.status(400).json({ error: "All fields must be submitted" });
-  }
-
-  console.log("Author ID:", author);
-  // Validate author ObjectId once
-  if (!mongoose.Types.ObjectId.isValid(author)) {
-    return res.status(400).json({ error: "Invalid or missing author ID" });
   }
 
   try {
@@ -25,7 +18,7 @@ async function createPost(req, res) {
       description,
       imageUrl,
       location,
-      author: mongoose.Types.ObjectId(author), // Convert author to ObjectId
+      author,
     };
 
     const post = new Post(postData);

@@ -14,9 +14,9 @@ function registerErrorHandler(error, res, email = "") {
     res.status(400).json({
       errors,
     });
-    return true; // Indicate that the response has been handled
+    return true;
   }
-  return false; // Indicate that no response has been sent
+  return false;
 }
 
 function userErrorHandler(error, res) {

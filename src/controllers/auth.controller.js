@@ -12,8 +12,8 @@ async function registerUser(req, res) {
   const _user = req.body;
   try {
     const user = await User.create(_user);
-    const userObject = user.toObject(); // Convert Mongoose model instance to plain JavaScript object
-    delete userObject.password; // Remove password property for security
+    const userObject = user.toObject();
+    delete userObject.password;
 
     const tokens = generateAccessAndRefreshToken(user);
 
@@ -28,7 +28,7 @@ async function registerUser(req, res) {
     });
   } catch (error) {
     const handled = registerErrorHandler(error, res, _user?.email);
-    if (handled) return; // Stop further execution if error is handled
+    if (handled) return;
     res.status(500).json({
       message: error.message,
     });
@@ -38,7 +38,7 @@ async function registerUser(req, res) {
 async function loginUser(req, res) {
   const { email, password } = req.body;
   try {
-    const user = await User.findOne({ email }).select("+password"); // Ensure to select the admin field if it's not selected by default
+    const user = await User.findOne({ email }).select("+password");
 
     if (!user) {
       return res.status(404).json({ message: "User not found" });
@@ -55,7 +55,7 @@ async function loginUser(req, res) {
       user: {
         id: user._id,
         username: user.username,
-        admin: user.admin, // Include the admin status
+        admin: user.admin,
       },
     });
   } catch (error) {
@@ -66,9 +66,7 @@ async function loginUser(req, res) {
   }
 }
 
-async function refreshAccessToken(req, res) {
-  // Implement the logic to refresh access token here
-}
+async function refreshAccessToken(req, res) {}
 
 module.exports = {
   registerUser,
