@@ -3,18 +3,17 @@ const cors = require("cors");
 const app = Express();
 const PostRouter = require("./routes/post.route");
 const commentRoutes = require("./routes/comments.route");
+const userRouter = require("./routes/user.route");
+const authRouter = require("./routes/auth.route");
 
 app.use(cors());
-
-// app.get("/", (req, res) => {
-//   res.send("Hello");
-// });
 
 app.use(Express.json());
 app.use(Express.urlencoded({ extended: true }));
 
-app.use("/post", PostRouter);
-app.use("/", PostRouter);
+app.use("/posts", PostRouter);
 app.use("/comments", commentRoutes);
+app.use("/user", userRouter);
+app.use("/auth", authRouter);
 
 module.exports = app;

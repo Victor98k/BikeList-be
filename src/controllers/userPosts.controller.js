@@ -1,18 +1,34 @@
 const Post = require("../models/post.model.js");
+const mongoose = require("mongoose"); // Import mongoose
 
 async function createPost(req, res) {
-  if (!req.body || !req.body.content) {
-    return res.status(400).json({ error: "Content field must be submitted" });
+  if (!req.body) {
+    return res.status(400).json({ error: "Request body is missing" });
+  }
+
+  const { title, description, imageUrl, location, author } = req.body;
+
+  // Check all required fields
+  if (!description || !title || !imageUrl || !location || !author) {
+    return res.status(400).json({ error: "All fields must be submitted" });
+  }
+
+  console.log("Author ID:", author);
+  // Validate author ObjectId once
+  if (!mongoose.Types.ObjectId.isValid(author)) {
+    return res.status(400).json({ error: "Invalid or missing author ID" });
   }
 
   try {
-    const post = new Post({
-      title: req.body.title, // Update to use 'title' from the request body
-      content: req.body.content,
-      imageUrl: req.body.imageUrl, // Update to use 'imageUrl' from the request body
-      location: req.body.location, // Update to use 'location' from the request body
-      author: req.body.author,
-    });
+    const postData = {
+      title,
+      description,
+      imageUrl,
+      location,
+      author: mongoose.Types.ObjectId(author), // Convert author to ObjectId
+    };
+
+    const post = new Post(postData);
     await post.save();
     res.status(201).json(post);
   } catch (error) {
