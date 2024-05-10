@@ -7,14 +7,12 @@ function connectToMongoose() {
     .connect(databaseURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
-      useCreateIndex: true,
-      useFindAndModify: false,
     })
     .then(() => {
       console.log("Connected to DB");
     })
     .catch((error) => {
-      console.log("Error connecting to DB", databaseURI, error);
+      console.error("Error connecting to DB:", databaseURI, error);
     });
 }
 
