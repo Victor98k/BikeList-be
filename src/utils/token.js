@@ -3,11 +3,11 @@ const jwt = require("jsonwebtoken");
 function generateAccessToken(user) {
   const accesstoken = jwt.sign(
     {
-      userId: user.id,
+      userId: user._id,
     },
     process.env.JWT_SECRET,
     {
-      expiresIn: "30m",
+      expiresIn: "30d",
     }
   );
   return accesstoken;
@@ -16,11 +16,11 @@ function generateAccessToken(user) {
 function generateRefreshToken(user) {
   const refreshToken = jwt.sign(
     {
-      userId: user.id,
+      userId: user._id,
     },
     process.env.JWT_REFRESH_SECRET,
     {
-      expiresIn: "28d",
+      expiresIn: "30d",
     }
   );
   return refreshToken;

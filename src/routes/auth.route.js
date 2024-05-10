@@ -5,7 +5,7 @@ const { authMiddleware } = require("../middlewares/auth.middleware");
 
 const authRouter = Express.Router();
 
-authRouter.post("/register", authMiddleware, registerUser);
-authRouter.post("/login", authMiddleware, loginUser);
+authRouter.post("/register", registerUser);
+authRouter.post("/login", loginUser);
 
 module.exports = authRouter;
