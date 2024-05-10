@@ -4,7 +4,12 @@ const databaseURI = process.env.MONGODB_CONNECT_URI;
 
 function connectToMongoose() {
   mongoose
-    .connect(databaseURI)
+    .connect(databaseURI, {
+      useNewUrlParser: true,
+      useUnifiedTopology: true,
+      useCreateIndex: true,
+      useFindAndModify: false,
+    })
     .then(() => {
       console.log("Connected to DB");
     })
